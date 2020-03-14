@@ -12,31 +12,35 @@ import static org.assertj.core.api.Assertions.assertThat;
 @SpringBootTest
 class HelloServiceTest {
 
+    private static final String STRANGER = "Stranger";
+    private static final String USER = "Andras";
+
     private HelloService helloService = new HelloService();
 
     @Test
     void getHelloMessage_callerNull() {
-        HelloRequest helloRequest = new HelloRequest();
-        Hello hello = helloService.getHelloMessage(helloRequest);
-
-        assertThat(hello.getMessage()).isEqualTo("Hello there, Stranger!");
-        assertThat(hello.getDateTime()).isBefore(LocalDateTime.now());
+        assertHelloService(new HelloRequest(), STRANGER);
     }
 
     @Test
     void getHelloMessage_requestNull() {
-        Hello hello = helloService.getHelloMessage(null);
-
-        assertThat(hello.getMessage()).isEqualTo("Hello there, Stranger!");
-        assertThat(hello.getDateTime()).isBefore(LocalDateTime.now());
+        assertHelloService(null, STRANGER);
     }
 
     @Test
     void getHelloMessage() {
-        HelloRequest helloRequest = new HelloRequest("Andras");
-        Hello hello = helloService.getHelloMessage(helloRequest);
+        assertHelloService(new HelloRequest(USER), USER);
+    }
 
-        assertThat(hello.getMessage()).isEqualTo("Hello there, Andras!");
-        assertThat(hello.getDateTime()).isBefore(LocalDateTime.now());
+    /*
+      Asserts whether the message and the dateTime are correct.
+     */
+    private void assertHelloService(HelloRequest request, String caller) {
+        LocalDateTime before = LocalDateTime.now();
+        Hello hello = helloService.getHelloMessage(request);
+
+        String expectedMessage = String.format("Hello there, %s!", caller);
+        assertThat(hello.getMessage()).isEqualTo(expectedMessage);
+        assertThat(hello.getDateTime()).isBetween(before, LocalDateTime.now());
     }
 }
