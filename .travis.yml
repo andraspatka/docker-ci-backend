@@ -5,6 +5,7 @@ os: linux
 dist: trusty
 jdk: openjdk8
 
+before_script: cd backend
 script:
- - backend/gradlew test
- - backend/gradlew bootJar
+ - ./gradlew test
+ - ./gradlew bootJar
