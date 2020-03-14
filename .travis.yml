@@ -1,4 +1,8 @@
 language: java
+
+services:
+ - docker
+
 install: true
 
 os: linux
@@ -8,3 +12,9 @@ jdk: openjdk8
 before_script: cd backend
 script:
  - ./gradlew build && ./gradlew test && ./gradlew bootJar
+
+after_success:
+  - docker build -t demobackend .
+  - docker tag demobackend andraspatka/demobackend:latest
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+  - docker push andraspatka/demobackend
