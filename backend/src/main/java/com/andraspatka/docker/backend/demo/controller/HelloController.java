@@ -31,7 +31,7 @@ public class HelloController {
     }
 
     @CrossOrigin(origins = {"localhost:80", "localhost:3000"})
-    @GetMapping(value = "/greeting", produces = APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/hello", produces = APPLICATION_JSON_VALUE)
     public String getHello() {
         return "Hello";
     }
