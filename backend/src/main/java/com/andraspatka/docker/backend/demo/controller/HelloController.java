@@ -29,4 +29,10 @@ public class HelloController {
     public Hello getGreeting(@RequestBody @Nullable HelloRequest request) {
         return this.helloService.getHelloMessage(request);
     }
+
+    @CrossOrigin(origins = {"localhost:80", "localhost:3000"})
+    @GetMapping(value = "/greeting", produces = APPLICATION_JSON_VALUE)
+    public String getHello() {
+        return "Hello";
+    }
 }

@@ -39,7 +39,7 @@ class HelloServiceTest {
         LocalDateTime before = LocalDateTime.now();
         Hello hello = helloService.getHelloMessage(request);
 
-        String expectedMessage = String.format("Hello ther, %s!", caller);
+        String expectedMessage = String.format("Hello there, %s!", caller);
         assertThat(hello.getMessage()).isEqualTo(expectedMessage);
         assertThat(hello.getDateTime()).isBetween(before, LocalDateTime.now());
     }
